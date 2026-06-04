@@ -30,20 +30,16 @@ public class Item {
         return currentCount;
     }
 
-    public void addCurrentCount(int loop){
-        for(int i = 0; i < loop; i++){
-            currentCount++;
-        }
+    public void addCurrentCount(int i){
+        currentCount+= i;
     }
 
     public int getNeededCount(){
         return neededCount;
     }
 
-    public void addNeededCount(int loop){
-        for(int i = 0; i < loop; i++){
-            neededCount++;
-        }
+    public void addNeededCount(int i){
+        neededCount -s= i;
     }
 
     public ArrayList<Material> getTotalNeeded(){

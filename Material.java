@@ -19,15 +19,11 @@ public class Material {
         return count;
     }
 
-    public void addCount(int loop){
-        for(int i = 0; i < loop; i++){
-            count++;
-        }
+    public void addCount(int i){
+        count += i;
     }
 
-    public void deleteCount(int loop){
-        for(int i = 0; i < loop; i++){
-            count--;
-        }
+    public void deleteCount(int i){
+        count -= i;
     }
 }
