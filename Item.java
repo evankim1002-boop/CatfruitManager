@@ -39,7 +39,7 @@ public class Item {
     }
 
     public void addNeededCount(int i){
-        neededCount -s= i;
+        neededCount -= i;
     }
 
     public ArrayList<Material> getTotalNeeded(){
