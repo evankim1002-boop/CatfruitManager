@@ -10,6 +10,7 @@ public class Item {
 
     //consturcotr
     public Item(String name){
+        list = new ArrayList<Material>();
         this.name = name;
         this.currentCount = 0;
         this.neededCount = 0;

@@ -13,6 +13,10 @@ public class Tracker {
 
     //method
 
+    public Book getBook() {
+        return book;
+    }
+
     public void addGoal(Item item){
         book.addItem(item);
     }
