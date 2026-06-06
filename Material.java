@@ -26,4 +26,21 @@ public class Material {
     public void deleteCount(int i){
         count -= i;
     }
+
+    public void setCount(int i){
+        count = i;
+    }
+
+    public boolean hasEnough(int i){
+        return count >= i;
+    }
+
+    public int getMissingAmount(int required){
+        if(count >= required){
+            return 0;
+        } else {
+            return required - count;
+        }
+    }
+
 }
