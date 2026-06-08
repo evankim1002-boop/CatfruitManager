@@ -86,44 +86,98 @@ public class Tracker {
 
     public ArrayList<Material> calculateTotalMissing() {
         ArrayList<Material> totalMissing = new ArrayList<Material>();
+        ArrayList<Material> totalRequired  = new ArrayList<Material>();
+
         for (int i = 0; i < book.getItemCount(); i++) {
             Item item = book.getItem(i);
+
             for (int j = 0; j < item.getTotalNeeded().size(); j++) {
                 Material neededMaterial = item.getTotalNeeded().get(j);
-                Material ownedMaterial = getOwnedMaterial(neededMaterial.getName());
-                if (ownedMaterial == null || !ownedMaterial.hasEnough(neededMaterial.getCount())) {
-                    int missingAmount = neededMaterial.getMissingAmount(ownedMaterial == null ? 0 : ownedMaterial.getCount());
-                    boolean found = false;
-                    for (int k = 0; k < totalMissing.size(); k++) {
-                        if (totalMissing.get(k).getName().equals(neededMaterial.getName())) {
-                            totalMissing.get(k).addCount(missingAmount);
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found) {
-                        Material missingMaterial = new Material(neededMaterial.getName());
-                        missingMaterial.setCount(missingAmount);
-                        totalMissing.add(missingMaterial);
+
+                
+                boolean found = false;
+                for (int k = 0; k < totalMissing.size(); k++) {
+                    if (totalMissing.get(k).getName().equals(neededMaterial.getName())) {
+                        totalMissing.get(k).addCount(neededMaterial.getCount());
+                        found = true;
+                        break;
                     }
                 }
+                if (!found) {
+                    Material missingMaterial = new Material(neededMaterial.getName());
+                    missingMaterial.setCount(neededMaterial.getCount());
+                    totalMissing.add(missingMaterial);
+                }
+            
             }
         }
+
+        for (int i =0 ; i < totalRequired.size(); i++){
+            Material requiredMaterial = totalRequired.get(i);
+            Material ownedMaterial = getOwnedMaterial(requiredMaterial.getName());
+
+            int ownedCount = 0;
+
+            if (ownedMaterial != null){
+                ownedCount = ownedMaterial.getCount();
+            }
+
+            int missingAmount = requiredMaterial.getCount() - ownedCount;
+
+            if (missingAmount > 0){
+                Material missingMaterial = new Material(requiredMaterial.getName());
+                missingMaterial.setCount(missingAmount);
+                totalMissing.add(missingMaterial);
+            }
+        }
+
+
         return totalMissing;
     }
 
-    public void markItemComplete(String itemName) {
-        for (int i = 0; i < book.getItemCount(); i++) {
-            if (book.getItem(i).getName().equals(itemName)) {
-                book.getItem(i).setComplete(true);
-                return;
-            }
-        }
-    }
+    // public void markItemComplete(String itemName) {
+    //     for (int i = 0; i < book.getItemCount(); i++) {
+    //         if (book.getItem(i).getName().equals(itemName)) {
+    //             book.getItem(i).setComplete(true);
+    //             return;
+    //         }
+    //     }
+    // }
 
-    public void clearAllProgress() {
-        for (int i = 0; i < book.getItemCount(); i++) {
-            book.getItem(i).setComplete(false);
-        }
-    }
+    // public void clearAllProgress() {
+    //     for (int i = 0; i < book.getItemCount(); i++) {
+    //         book.getItem(i).setComplete(false);
+    //     }
+    // }
+
+    // public ArrayList<Material> getMissingMaterials(){
+    //     ArrayList<Material> missing = new ArrayList<Material>();
+    //     for(int i = 0; i < list.size(); i++){
+    //         if(!list.get(i).hasEnough(list.get(i).getCount())){
+    //             missing.add(list.get(i));
+    //         }
+    //     }
+    //     return missing;
+    // }
+
+    // public boolean isComplete(){
+    //     for(int i = 0; i < list.size(); i++){
+    //         if(!list.get(i).hasEnough(list.get(i).getCount())){
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // }
+
+    // public void setComplete(boolean complete){
+    //     if(complete){
+    //         for(int i = 0; i < list.size(); i++){
+    //             list.get(i).setCount(list.get(i).getCount() + list.get(i).getMissingAmount(list.get(i).getCount()));
+    //         }
+    //     } else {
+    //         for(int i = 0; i < list.size(); i++){
+    //             list.get(i).setCount(0);
+    //         }
+    //     }
+    // }
 }

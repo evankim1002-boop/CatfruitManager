@@ -64,37 +64,6 @@ public class Item {
         return null;
     }
 
-    public ArrayList<Material> getMissingMaterials(){
-        ArrayList<Material> missing = new ArrayList<Material>();
-        for(int i = 0; i < list.size(); i++){
-            if(!list.get(i).hasEnough(list.get(i).getCount())){
-                missing.add(list.get(i));
-            }
-        }
-        return missing;
-    }
-
-    public boolean isComplete(){
-        for(int i = 0; i < list.size(); i++){
-            if(!list.get(i).hasEnough(list.get(i).getCount())){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public void setComplete(boolean complete){
-        if(complete){
-            for(int i = 0; i < list.size(); i++){
-                list.get(i).setCount(list.get(i).getCount() + list.get(i).getMissingAmount(list.get(i).getCount()));
-            }
-        } else {
-            for(int i = 0; i < list.size(); i++){
-                list.get(i).setCount(0);
-            }
-        }
-    }
-
     public int getTotalMissingMaterials(){
         int total = 0;
         for(int i = 0; i < list.size(); i++){
