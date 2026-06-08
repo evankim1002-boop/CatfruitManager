@@ -106,7 +106,7 @@ public class Tracker {
                 if (!found) {
                     Material missingMaterial = new Material(neededMaterial.getName());
                     missingMaterial.setCount(neededMaterial.getCount());
-                    totalMissing.add(missingMaterial);
+                    totalRequired.add(missingMaterial);
                 }
             
             }
@@ -127,7 +127,7 @@ public class Tracker {
             if (missingAmount > 0){
                 Material missingMaterial = new Material(requiredMaterial.getName());
                 missingMaterial.setCount(missingAmount);
-                totalRequired.add(missingMaterial);
+                totalMissing.add(missingMaterial);
             }
         }
 
