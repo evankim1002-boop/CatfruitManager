@@ -97,8 +97,8 @@ public class Tracker {
                 
                 boolean found = false;
                 for (int k = 0; k < totalMissing.size(); k++) {
-                    if (totalMissing.get(k).getName().equals(neededMaterial.getName())) {
-                        totalMissing.get(k).addCount(neededMaterial.getCount());
+                    if (totalRequired.get(k).getName().equals(neededMaterial.getName())) {
+                        totalRequired.get(k).addCount(neededMaterial.getCount());
                         found = true;
                         break;
                     }
@@ -127,7 +127,7 @@ public class Tracker {
             if (missingAmount > 0){
                 Material missingMaterial = new Material(requiredMaterial.getName());
                 missingMaterial.setCount(missingAmount);
-                totalMissing.add(missingMaterial);
+                totalRequired.add(missingMaterial);
             }
         }
 

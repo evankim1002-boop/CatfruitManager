@@ -67,7 +67,7 @@ public class Item {
     public int getTotalMissingMaterials(){
         int total = 0;
         for(int i = 0; i < list.size(); i++){
-            total += list.get(i).getMissingAmount(list.get(i).getCount());
+            total += list.get(i).getMissingAmount(list.get(i).getCount(), list.get(i).getNeededCount());
         }
         return total;
     }

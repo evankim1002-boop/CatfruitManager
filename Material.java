@@ -2,6 +2,7 @@ public class Material {
     //declare variable
     private String name;
     private int count;
+    private int neededCount;
     
     //constructor
     public Material(String name){
@@ -35,12 +36,20 @@ public class Material {
         return count >= i;
     }
 
-    public int getMissingAmount(int required){
-    if(count >= required){
+    public int getMissingAmount(int itemCount, int required){
+    if(itemCount >= required){
         return 0;
     } else {
-        return required - count;
+        return required - itemCount;
     }
 }
+    public int getNeededCount(){
+        return neededCount;
+    }
+
+    public void setNeededCount(int i){
+        neededCount = i;
+    }
+
 
 }
