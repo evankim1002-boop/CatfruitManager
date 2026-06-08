@@ -36,11 +36,11 @@ public class Material {
     }
 
     public int getMissingAmount(int required){
-        if(count >= required){
-            return 0;
-        } else {
-            return required - count;
-        }
+    if(count >= required){
+        return 0;
+    } else {
+        return required - count;
     }
+}
 
 }
