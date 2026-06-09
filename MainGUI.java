@@ -18,7 +18,7 @@ public class MainGUI {
         tracker = new Tracker();
 
         frame = new JFrame("Battle Cats Catfruit Tracker");
-        frame.setSize(700, 500);
+        frame.setSize(500, 700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
@@ -80,7 +80,7 @@ public class MainGUI {
 
         frame.add(middlePanel, BorderLayout.CENTER);
 
-        outputArea = new JTextArea();
+        outputArea = new JTextArea(1,1);
         outputArea.setEditable(false);
 
         JScrollPane scrollPane = new JScrollPane(outputArea);
