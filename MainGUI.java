@@ -106,6 +106,13 @@ public class MainGUI {
 
         frame.add(displayPanel, BorderLayout.SOUTH);
 
+        outputArea = new JTextArea(5, 20);
+outputArea.setEditable(false);
+
+JScrollPane logPane = new JScrollPane(outputArea);
+
+frame.add(logPane, BorderLayout.EAST);
+
         addCatButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 addCat();
