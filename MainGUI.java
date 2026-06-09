@@ -55,17 +55,22 @@ public class MainGUI {
         inventoryPanel.add(ownedAmountField);
         inventoryPanel.add(updateInventoryButton);
 
-        JPanel buttonPanel = new JPanel(new GridLayout(4, 1));
+        JPanel buttonPanel = new JPanel(new GridLayout(7, 1));
 
         JButton viewMissingButton = new JButton("View Missing For Cat");
         JButton viewTotalMissingButton = new JButton("View Total Missing");
         JButton viewInventoryButton = new JButton("View Inventory");
+        JButton saveButton = new JButton("Save");
+        JButton loadButton = new JButton("Load");
         JButton clearButton = new JButton("Clear Output");
 
         buttonPanel.add(addRequirementButton);
         buttonPanel.add(viewMissingButton);
         buttonPanel.add(viewTotalMissingButton);
         buttonPanel.add(viewInventoryButton);
+        buttonPanel.add(saveButton);
+        buttonPanel.add(loadButton);
+        buttonPanel.add(clearButton);
 
         middlePanel.add(inventoryPanel);
         middlePanel.add(buttonPanel);
@@ -114,6 +119,24 @@ public class MainGUI {
             }
         });
 
+        saveButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                saveData();
+            }
+        });
+
+        loadButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                loadData();
+            }
+        });
+
+        clearButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                outputArea.setText("");
+            }
+        });
+
         frame.setVisible(true);
     }
 
@@ -141,7 +164,14 @@ public class MainGUI {
             return;
         }
 
-        int amount = Integer.parseInt(requiredAmountField.getText());
+        int amount;
+
+        try {
+            amount = Integer.parseInt(requiredAmountField.getText());
+        } catch (NumberFormatException e) {
+            outputArea.append("Enter a valid required amount.\n");
+            return;
+        }
 
         Item item = tracker.getBook().getItemByName(catName);
 
@@ -168,7 +198,14 @@ public class MainGUI {
             return;
         }
 
-        int amount = Integer.parseInt(ownedAmountField.getText());
+        int amount;
+
+        try {
+            amount = Integer.parseInt(ownedAmountField.getText());
+        } catch (NumberFormatException e) {
+            outputArea.append("Enter a valid owned amount.\n");
+            return;
+        }
 
         Material owned = tracker.getOwnedMaterial(materialName);
 
@@ -237,6 +274,24 @@ public class MainGUI {
             for (int i = 0; i < inventory.size(); i++) {
                 outputArea.append(inventory.get(i).getName() + ": " + inventory.get(i).getCount() + "\n");
             }
+        }
+    }
+
+    private void saveData() {
+        try {
+            tracker.saveData("save.txt");
+            outputArea.append("Saved data to save.txt\n");
+        } catch (Exception e) {
+            outputArea.append("Could not save data.\n");
+        }
+    }
+
+    private void loadData() {
+        try {
+            tracker.loadData("save.txt");
+            outputArea.append("Loaded data from save.txt\n");
+        } catch (Exception e) {
+            outputArea.append("Could not load data.\n");
         }
     }
 

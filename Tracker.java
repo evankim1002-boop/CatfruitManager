@@ -1,5 +1,9 @@
 
+import java.io.File;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
+
 
 public class Tracker {
 
@@ -132,6 +136,76 @@ public class Tracker {
 
         return totalMissing;
     }
+
+    public void saveData(String fileName) throws Exception {
+    PrintWriter out = new PrintWriter(fileName);
+
+    out.println(inventory.size());
+
+    for (int i = 0; i < inventory.size(); i++) {
+        out.println(inventory.get(i).getName());
+        out.println(inventory.get(i).getCount());
+    }
+
+    out.println(book.getItemCount());
+
+    for (int i = 0; i < book.getItemCount(); i++) {
+        Item item = book.getItem(i);
+
+        out.println(item.getName());
+        out.println(item.getTotalNeeded().size());
+
+        for (int j = 0; j < item.getTotalNeeded().size(); j++) {
+            Material material = item.getTotalNeeded().get(j);
+
+            out.println(material.getName());
+            out.println(material.getCount());
+        }
+    }
+
+    out.close();
+}
+
+public void loadData(String fileName) throws Exception {
+    Scanner in = new Scanner(new File(fileName));
+
+    inventory.clear();
+    book.clearBook();
+
+    int inventorySize = Integer.parseInt(in.nextLine());
+
+    for (int i = 0; i < inventorySize; i++) {
+        String name = in.nextLine();
+        int count = Integer.parseInt(in.nextLine());
+
+        Material material = new Material(name);
+        material.setCount(count);
+        inventory.add(material);
+    }
+
+    int itemCount = Integer.parseInt(in.nextLine());
+
+    for (int i = 0; i < itemCount; i++) {
+        String itemName = in.nextLine();
+        Item item = new Item(itemName);
+
+        int materialCount = Integer.parseInt(in.nextLine());
+
+        for (int j = 0; j < materialCount; j++) {
+            String materialName = in.nextLine();
+            int materialAmount = Integer.parseInt(in.nextLine());
+
+            Material material = new Material(materialName);
+            material.setCount(materialAmount);
+
+            item.addMaterial(material);
+        }
+
+        book.addItem(item);
+    }
+
+    in.close();
+}
 
     // public void markItemComplete(String itemName) {
     //     for (int i = 0; i < book.getItemCount(); i++) {
