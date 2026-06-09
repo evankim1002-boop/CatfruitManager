@@ -1,9 +1,11 @@
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
 public class MainGUI {
+
     private Tracker tracker;
 
     private JFrame frame;
@@ -13,6 +15,9 @@ public class MainGUI {
     private JTextField ownedMaterialField;
     private JTextField ownedAmountField;
     private JTextArea outputArea;
+    private JTextArea catsArea;
+    private JTextArea inventoryArea;
+    private JTextArea missingArea;
 
     public MainGUI() {
         tracker = new Tracker();
@@ -26,15 +31,17 @@ public class MainGUI {
 
         catNameField = new JTextField();
         JButton addCatButton = new JButton("Add Cat");
+        JButton deleteCatButton = new JButton("Delete Cat");
 
         materialNameField = new JTextField();
         requiredAmountField = new JTextField();
         JButton addRequirementButton = new JButton("Add Requirement");
+        JButton editRequirementButton = new JButton("Edit Requirement");
 
         topPanel.add(new JLabel("Cat Name:"));
         topPanel.add(catNameField);
         topPanel.add(addCatButton);
-
+        topPanel.add(deleteCatButton);
         topPanel.add(new JLabel("Material Required:"));
         topPanel.add(materialNameField);
         topPanel.add(requiredAmountField);
@@ -44,8 +51,6 @@ public class MainGUI {
         JPanel middlePanel = new JPanel(new GridLayout(1, 2));
 
         JPanel inventoryPanel = new JPanel(new GridLayout(3, 2));
-
-        
 
         ownedMaterialField = new JTextField();
         ownedAmountField = new JTextField();
@@ -60,14 +65,19 @@ public class MainGUI {
 
         JPanel buttonPanel = new JPanel(new GridLayout(7, 1));
 
+        JButton viewCatsButton = new JButton("View Cats");
         JButton viewMissingButton = new JButton("View Missing For Cat");
+
         JButton viewTotalMissingButton = new JButton("View Total Missing");
         JButton viewInventoryButton = new JButton("View Inventory");
         JButton saveButton = new JButton("Save");
         JButton loadButton = new JButton("Load");
         JButton clearButton = new JButton("Clear Output");
 
+        buttonPanel.add(viewCatsButton);
         buttonPanel.add(addRequirementButton);
+        buttonPanel.add(editRequirementButton);
+
         buttonPanel.add(viewMissingButton);
         buttonPanel.add(viewTotalMissingButton);
         buttonPanel.add(viewInventoryButton);
@@ -80,15 +90,38 @@ public class MainGUI {
 
         frame.add(middlePanel, BorderLayout.CENTER);
 
-        outputArea = new JTextArea(1,1);
-        outputArea.setEditable(false);
+        JPanel displayPanel = new JPanel(new GridLayout(1, 3));
 
-        JScrollPane scrollPane = new JScrollPane(outputArea);
-        frame.add(scrollPane, BorderLayout.SOUTH);
+        catsArea = new JTextArea();
+        inventoryArea = new JTextArea();
+        missingArea = new JTextArea();
+
+        catsArea.setEditable(false);
+        inventoryArea.setEditable(false);
+        missingArea.setEditable(false);
+
+        displayPanel.add(new JScrollPane(catsArea));
+        displayPanel.add(new JScrollPane(inventoryArea));
+        displayPanel.add(new JScrollPane(missingArea));
+
+        frame.add(displayPanel, BorderLayout.SOUTH);
 
         addCatButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 addCat();
+            }
+        });
+
+        viewCatsButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                refreshDisplay();
+                outputArea.append("Cats refreshed.\n");
+            }
+        });
+
+        editRequirementButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                editRequirement();
             }
         });
 
@@ -105,10 +138,16 @@ public class MainGUI {
         });
 
         addInventoryButton.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent e) {
-        addInventory();
-    }
-});
+            public void actionPerformed(ActionEvent e) {
+                addInventory();
+            }
+        });
+
+        deleteCatButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                deleteCat();
+            }
+        });
 
         viewMissingButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -121,8 +160,6 @@ public class MainGUI {
                 viewTotalMissing();
             }
         });
-
-        
 
         viewInventoryButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -148,10 +185,53 @@ public class MainGUI {
             }
         });
 
-
         frame.setVisible(true);
     }
 
+    private void editRequirement() {
+        String catName = catNameField.getText();
+        String materialName = materialNameField.getText();
+
+        if (catName.equals("") || materialName.equals("")) {
+            outputArea.append("Enter cat name and material name.\n");
+            return;
+        }
+
+        int amount;
+
+        try {
+            amount = Integer.parseInt(requiredAmountField.getText());
+        } catch (NumberFormatException e) {
+            outputArea.append("Enter a valid required amount.\n");
+            return;
+        }
+
+        Item item = tracker.getBook().getItemByName(catName);
+
+        if (item == null) {
+            outputArea.append("Cat not found: " + catName + "\n");
+            return;
+        }
+
+        Material existingMaterial = item.getMaterialByName(materialName);
+
+        if (existingMaterial == null) {
+            Material material = new Material(materialName);
+            material.setCount(amount);
+            item.addMaterial(material);
+
+            outputArea.append("Added new requirement for " + catName + ": " + amount + " " + materialName + "\n");
+        } else {
+            existingMaterial.setCount(amount);
+
+            outputArea.append("Edited requirement for " + catName + ": " + materialName + " = " + amount + "\n");
+        }
+
+        materialNameField.setText("");
+        requiredAmountField.setText("");
+
+        refreshDisplay();
+    }
 
     private void addCat() {
         String catName = catNameField.getText();
@@ -236,6 +316,28 @@ public class MainGUI {
         ownedAmountField.setText("");
     }
 
+    private void deleteCat() {
+        String catName = catNameField.getText();
+
+        if (catName.equals("")) {
+            outputArea.append("Enter a cat name.\n");
+            return;
+        }
+
+        Item item = tracker.getBook().getItemByName(catName);
+
+        if (item == null) {
+            outputArea.append("Cat not found.\n");
+            return;
+        }
+
+        tracker.removeGoal(catName);
+
+        outputArea.append("Deleted cat: " + catName + "\n");
+
+        catNameField.setText("");
+    }
+
     private void viewMissingForCat() {
         String catName = catNameField.getText();
 
@@ -289,41 +391,39 @@ public class MainGUI {
             }
         }
     }
-    
-private void addInventory() {
-    String materialName = ownedMaterialField.getText();
 
-    if (materialName.equals("")) {
-        outputArea.append("Enter a material name.\n");
-        return;
+    private void addInventory() {
+        String materialName = ownedMaterialField.getText();
+
+        if (materialName.equals("")) {
+            outputArea.append("Enter a material name.\n");
+            return;
+        }
+
+        int amount;
+
+        try {
+            amount = Integer.parseInt(ownedAmountField.getText());
+        } catch (NumberFormatException e) {
+            outputArea.append("Enter a valid owned amount.\n");
+            return;
+        }
+
+        Material owned = tracker.getOwnedMaterial(materialName);
+
+        if (owned == null) {
+            Material material = new Material(materialName);
+            material.setCount(amount);
+            tracker.addOwnedMaterial(material);
+        } else {
+            owned.addCount(amount);
+        }
+
+        outputArea.append("Added inventory: " + materialName + " +" + amount + "\n");
+
+        ownedMaterialField.setText("");
+        ownedAmountField.setText("");
     }
-
-    int amount;
-
-    try {
-        amount = Integer.parseInt(ownedAmountField.getText());
-    } catch (NumberFormatException e) {
-        outputArea.append("Enter a valid owned amount.\n");
-        return;
-    }
-
-    Material owned = tracker.getOwnedMaterial(materialName);
-
-    if (owned == null) {
-        Material material = new Material(materialName);
-        material.setCount(amount);
-        tracker.addOwnedMaterial(material);
-    } else {
-        owned.addCount(amount);
-    }
-
-    outputArea.append("Added inventory: " + materialName + " +" + amount + "\n");
-
-    ownedMaterialField.setText("");
-    ownedAmountField.setText("");
-}
-
-
 
     private void saveData() {
         try {
@@ -340,6 +440,36 @@ private void addInventory() {
             outputArea.append("Loaded data from save.txt\n");
         } catch (Exception e) {
             outputArea.append("Could not load data.\n");
+        }
+    }
+
+    private void refreshDisplay() {
+        catsArea.setText("Cats:\n");
+
+        for (int i = 0; i < tracker.getBook().getItemCount(); i++) {
+            Item item = tracker.getBook().getItem(i);
+            catsArea.append(item.getName() + "\n");
+
+            for (int j = 0; j < item.getTotalNeeded().size(); j++) {
+                Material m = item.getTotalNeeded().get(j);
+                catsArea.append("  - " + m.getName() + ": " + m.getCount() + "\n");
+            }
+        }
+
+        inventoryArea.setText("Inventory:\n");
+
+        ArrayList<Material> inventory = tracker.getOwnedMaterials();
+
+        for (int i = 0; i < inventory.size(); i++) {
+            inventoryArea.append(inventory.get(i).getName() + ": " + inventory.get(i).getCount() + "\n");
+        }
+
+        missingArea.setText("Total Missing:\n");
+
+        ArrayList<Material> missing = tracker.calculateTotalMissing();
+
+        for (int i = 0; i < missing.size(); i++) {
+            missingArea.append(missing.get(i).getName() + ": " + missing.get(i).getCount() + "\n");
         }
     }
 
