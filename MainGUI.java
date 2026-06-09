@@ -1,7 +1,7 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import javax.swing.*;
 
 public class MainGUI {
     private Tracker tracker;
@@ -45,15 +45,18 @@ public class MainGUI {
 
         JPanel inventoryPanel = new JPanel(new GridLayout(3, 2));
 
+        
+
         ownedMaterialField = new JTextField();
         ownedAmountField = new JTextField();
         JButton updateInventoryButton = new JButton("Update Inventory");
-
+        JButton addInventoryButton = new JButton("Add Inventory");
         inventoryPanel.add(new JLabel("Owned Material:"));
         inventoryPanel.add(ownedMaterialField);
         inventoryPanel.add(new JLabel("Owned Amount:"));
         inventoryPanel.add(ownedAmountField);
         inventoryPanel.add(updateInventoryButton);
+        inventoryPanel.add(addInventoryButton);
 
         JPanel buttonPanel = new JPanel(new GridLayout(7, 1));
 
@@ -101,6 +104,12 @@ public class MainGUI {
             }
         });
 
+        addInventoryButton.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        addInventory();
+    }
+});
+
         viewMissingButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 viewMissingForCat();
@@ -112,6 +121,8 @@ public class MainGUI {
                 viewTotalMissing();
             }
         });
+
+        
 
         viewInventoryButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -137,8 +148,10 @@ public class MainGUI {
             }
         });
 
+
         frame.setVisible(true);
     }
+
 
     private void addCat() {
         String catName = catNameField.getText();
@@ -276,6 +289,18 @@ public class MainGUI {
             }
         }
     }
+    
+private void addInventory() {
+    String materialName = ownedMaterialField.getText();
+    int amount = Integer.parseInt(ownedAmountField.getText());
+
+    tracker.addToInventory(materialName, amount);
+
+    outputArea.append("Added " + amount +
+        " " + materialName + "\n");
+}
+
+
 
     private void saveData() {
         try {

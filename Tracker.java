@@ -207,5 +207,17 @@ public void loadData(String fileName) throws Exception {
     in.close();
 }
 
+public void addToInventory(String materialName, int amount) {
+    Material owned = getOwnedMaterial(materialName);
+
+    if (owned == null) {
+        Material material = new Material(materialName);
+        material.setCount(amount);
+        inventory.add(material);
+    } else {
+        owned.addCount(amount);
+    }
+}
+
     
 }
