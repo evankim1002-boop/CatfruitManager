@@ -165,7 +165,7 @@ public class MainGUI {
         tracker.addGoal(item);
 
         outputArea.append("Added cat goal: " + catName + "\n");
-        catNameField.setText("");
+        // catNameField.setText("");
     }
 
     private void addRequirement() {
