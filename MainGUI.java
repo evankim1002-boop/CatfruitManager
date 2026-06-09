@@ -19,42 +19,37 @@ public class MainGUI {
     private JTextArea inventoryArea;
     private JTextArea missingArea;
 
-   public MainGUI() {
-    tracker = new Tracker();
+    public MainGUI() {
+        tracker = new Tracker();
 
-    frame = new JFrame("Battle Cats Catfruit Tracker");
-    frame.setSize(700, 500);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setLayout(new BorderLayout());
+        frame = new JFrame("Battle Cats Catfruit Tracker");
+        frame.setSize(1920, 1080);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
 
-    JPanel topPanel = new JPanel(new GridLayout(2, 3));
-    JPanel northPanel = new JPanel(new GridLayout(2, 1));
+        JPanel topPanel = new JPanel(new GridLayout(2, 3));
+        JPanel northPanel = new JPanel(new GridLayout(2, 1));
 
-    catNameField = new JTextField();
-    materialNameField = new JTextField();
-    requiredAmountField = new JTextField();
+        catNameField = new JTextField();
+        materialNameField = new JTextField();
+        requiredAmountField = new JTextField();
 
-    JButton addCatButton = new JButton("Add Cat");
-    JButton deleteCatButton = new JButton("Delete Cat");
+        JButton addCatButton = new JButton("Add Cat");
+        JButton deleteCatButton = new JButton("Delete Cat");
 
-    JPanel catButtonPanel = new JPanel(new GridLayout(1, 2));
-    catButtonPanel.add(addCatButton);
-    catButtonPanel.add(deleteCatButton);
+        JPanel catButtonPanel = new JPanel(new GridLayout(1, 2));
+        catButtonPanel.add(addCatButton);
+        catButtonPanel.add(deleteCatButton);
 
-    topPanel.add(new JLabel("Cat Name:"));
-    topPanel.add(catNameField);
-    topPanel.add(catButtonPanel);
+        topPanel.add(new JLabel("Cat Name:"));
+        topPanel.add(catNameField);
+        topPanel.add(catButtonPanel);
 
-    topPanel.add(new JLabel("Material Name:"));
-    topPanel.add(materialNameField);
-    topPanel.add(requiredAmountField);
+        topPanel.add(new JLabel("Material Name:"));
+        topPanel.add(materialNameField);
+        topPanel.add(requiredAmountField);
 
-    
-
-    northPanel.add(topPanel);
-
-    
-            
+        northPanel.add(topPanel);
 
         JPanel middlePanel = new JPanel(new GridLayout(1, 2));
         northPanel.add(middlePanel);
@@ -82,7 +77,8 @@ public class MainGUI {
         JButton saveButton = new JButton("Save");
         JButton loadButton = new JButton("Load");
         JButton clearButton = new JButton("Clear Output");
-        
+        JButton addRequirementButton = new JButton("Add Requirement");
+        JButton editRequirementButton = new JButton("Edit Requirement");
 
         buttonPanel.add(viewCatsButton);
         buttonPanel.add(addRequirementButton);
@@ -98,9 +94,7 @@ public class MainGUI {
         middlePanel.add(inventoryPanel);
         middlePanel.add(buttonPanel);
 
-        
-frame.add(northPanel, BorderLayout.NORTH);
-
+        frame.add(northPanel, BorderLayout.NORTH);
 
         JPanel displayPanel = new JPanel(new GridLayout(1, 3));
 
@@ -119,11 +113,11 @@ frame.add(northPanel, BorderLayout.NORTH);
         frame.add(displayPanel, BorderLayout.CENTER);
 
         outputArea = new JTextArea(5, 20);
-outputArea.setEditable(false);
+        outputArea.setEditable(false);
 
-JScrollPane logPane = new JScrollPane(outputArea);
+        JScrollPane logPane = new JScrollPane(outputArea);
 
-frame.add(logPane, BorderLayout.SOUTH);
+        frame.add(logPane, BorderLayout.SOUTH);
 
         addCatButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -201,10 +195,14 @@ frame.add(logPane, BorderLayout.SOUTH);
         clearButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 outputArea.setText("");
+                catsArea.setText("Cats:\n");
+                inventoryArea.setText("Inventory:\n");
+                missingArea.setText("Total Missing:\n");
+                outputArea.append("Cleared output.\n");
             }
         });
-
-        frame.setVisible(true);
+        refreshDisplay();
+frame.setVisible(true);
     }
 
     private void editRequirement() {
@@ -265,6 +263,7 @@ frame.add(logPane, BorderLayout.SOUTH);
 
         outputArea.append("Added cat goal: " + catName + "\n");
         // catNameField.setText("");
+        refreshDisplay();
     }
 
     private void addRequirement() {
@@ -300,6 +299,7 @@ frame.add(logPane, BorderLayout.SOUTH);
 
         materialNameField.setText("");
         requiredAmountField.setText("");
+        refreshDisplay();
     }
 
     private void updateInventory() {
@@ -333,6 +333,7 @@ frame.add(logPane, BorderLayout.SOUTH);
 
         ownedMaterialField.setText("");
         ownedAmountField.setText("");
+        refreshDisplay();
     }
 
     private void deleteCat() {
@@ -355,6 +356,7 @@ frame.add(logPane, BorderLayout.SOUTH);
         outputArea.append("Deleted cat: " + catName + "\n");
 
         catNameField.setText("");
+        refreshDisplay();
     }
 
     private void viewMissingForCat() {
@@ -381,6 +383,7 @@ frame.add(logPane, BorderLayout.SOUTH);
                 outputArea.append(missing.get(i).getName() + ": " + missing.get(i).getCount() + "\n");
             }
         }
+        refreshDisplay();
     }
 
     private void viewTotalMissing() {
@@ -395,6 +398,7 @@ frame.add(logPane, BorderLayout.SOUTH);
                 outputArea.append(totalMissing.get(i).getName() + ": " + totalMissing.get(i).getCount() + "\n");
             }
         }
+        refreshDisplay();
     }
 
     private void viewInventory() {
@@ -409,6 +413,7 @@ frame.add(logPane, BorderLayout.SOUTH);
                 outputArea.append(inventory.get(i).getName() + ": " + inventory.get(i).getCount() + "\n");
             }
         }
+        refreshDisplay();
     }
 
     private void addInventory() {
@@ -442,6 +447,7 @@ frame.add(logPane, BorderLayout.SOUTH);
 
         ownedMaterialField.setText("");
         ownedAmountField.setText("");
+        refreshDisplay();
     }
 
     private void saveData() {
@@ -451,6 +457,7 @@ frame.add(logPane, BorderLayout.SOUTH);
         } catch (Exception e) {
             outputArea.append("Could not save data.\n");
         }
+        refreshDisplay();
     }
 
     private void loadData() {
@@ -460,6 +467,7 @@ frame.add(logPane, BorderLayout.SOUTH);
         } catch (Exception e) {
             outputArea.append("Could not load data.\n");
         }
+        refreshDisplay();
     }
 
     private void refreshDisplay() {
