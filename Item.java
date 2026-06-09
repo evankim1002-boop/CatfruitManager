@@ -15,30 +15,38 @@ public class Item {
 
     //method
 
+    //getter for name
     public String getName(){
         return name;
     }
 
+//getter for material
     public Material getMaterial(int i){
         return list.get(i);
     }
 
+    //getter for currentCount
     public int getCurrentCount(){
         return currentCount;
     }
 
+
+    //adding to current count
     public void addCurrentCount(int i){
         currentCount+= i;
     }
 
+    //getter for list
     public ArrayList<Material> getTotalNeeded(){
         return list;
     }
 
+    //adding material to list
     public void addMaterial(Material material){
         list.add(material);
     }
 
+    //removing material from list
     public void removeMaterial(int i){
         if (i < 0 || i >= list.size()) {
             return;
@@ -46,6 +54,7 @@ public class Item {
         list.remove(i);
     }
 
+    //getting material by name
     public Material getMaterialByName(String name){
         for(int i = 0; i < list.size(); i++){
             if(list.get(i).getName().equals(name)){

@@ -18,14 +18,20 @@ public class Tracker {
     }
 
     //method
+
+    //getter for book
     public Book getBook() {
         return book;
     }
 
+    //adding goal to the book by using arraylist default function
     public void addGoal(Item item) {
         book.addItem(item);
     }
 
+
+    //remove goal by using a for loop to find item and then using arraylist function to remove it
+    //need to see if it can remove for multiple items with the same name
     public void removeGoal(String itemName) {
         for (int i = 0; i < book.getItemCount(); i++) {
             if (book.getItem(i).getName().equals(itemName)) {
@@ -35,9 +41,13 @@ public class Tracker {
         }
     }
 
+
+    //addowned material to inventory. simple
     public void addOwnedMaterial(Material material) {
         inventory.add(material);
     }
+
+    //update owned inventory by using a for loop to loop through inventory and find material and then set to count
 
     public void updateOwnedMaterial(String materialName, int count) {
         for (int i = 0; i < inventory.size(); i++) {
@@ -48,6 +58,8 @@ public class Tracker {
         }
     }
 
+
+    //gtter for owned material by name uses for loop and then if it is equal to the name then reutrn materila if else return null
     public Material getOwnedMaterial(String materialName) {
         for (int i = 0; i < inventory.size(); i++) {
             if (inventory.get(i).getName().equals(materialName)) {
@@ -57,10 +69,17 @@ public class Tracker {
         return null;
     }
 
+
+    // getter for owned materials and basically just returns inventory
     public ArrayList<Material> getOwnedMaterials() {
         return inventory;
     }
 
+
+    //this was a pain. so we loop through the book to find the item we want and then thats the first for loop
+    //second for the second for loop we use another for loop to loop through the material needed for the item and then 
+    //we check if the material and if we do have the material we check if we have enough of it and if we dont we just subtract
+    //the amount we have from the amount we need andn voila we have the amount missing for one item
     public ArrayList<Material> calculateMissingForItem(String itemName) {
         for (int i = 0; i < book.getItemCount(); i++) {
             if (book.getItem(i).getName().equals(itemName)) {
@@ -88,6 +107,9 @@ public class Tracker {
         return null;
     }
 
+    //this is basically same as last one but we just loop through this for the entire book and end up all the things we need
+    // and then we subtract the total of all the things we have and this was also a pain becausen i kept getting double count
+    //error but it works now.
     public ArrayList<Material> calculateTotalMissing() {
         ArrayList<Material> totalMissing = new ArrayList<Material>();
         ArrayList<Material> totalRequired = new ArrayList<Material>();
@@ -137,9 +159,12 @@ public class Tracker {
         return totalMissing;
     }
 
-    public void saveData(String fileName) throws Exception {
-    PrintWriter out = new PrintWriter(fileName);
 
+    //i used the "PrintWriter" api to save the data. really cool function.
+    public void saveData(String fileName) throws Exception {
+    // creates object like how we use scanner
+    PrintWriter out = new PrintWriter(fileName);
+    // we save the inventory size so we know how much we need to read
     out.println(inventory.size());
 
     for (int i = 0; i < inventory.size(); i++) {
