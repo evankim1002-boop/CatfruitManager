@@ -18,7 +18,7 @@ public class MainGUI {
         tracker = new Tracker();
 
         frame = new JFrame("Battle Cats Catfruit Tracker");
-        frame.setSize(500, 700);
+        frame.setSize(700, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
