@@ -86,7 +86,7 @@ public class Tracker {
 
     public ArrayList<Material> calculateTotalMissing() {
         ArrayList<Material> totalMissing = new ArrayList<Material>();
-        ArrayList<Material> totalRequired  = new ArrayList<Material>();
+        ArrayList<Material> totalRequired = new ArrayList<Material>();
 
         for (int i = 0; i < book.getItemCount(); i++) {
             Item item = book.getItem(i);
@@ -94,9 +94,8 @@ public class Tracker {
             for (int j = 0; j < item.getTotalNeeded().size(); j++) {
                 Material neededMaterial = item.getTotalNeeded().get(j);
 
-                
                 boolean found = false;
-                for (int k = 0; k < totalMissing.size(); k++) {
+                for (int k = 0; k < totalRequired.size(); k++) {
                     if (totalRequired.get(k).getName().equals(neededMaterial.getName())) {
                         totalRequired.get(k).addCount(neededMaterial.getCount());
                         found = true;
@@ -108,29 +107,28 @@ public class Tracker {
                     missingMaterial.setCount(neededMaterial.getCount());
                     totalRequired.add(missingMaterial);
                 }
-            
+
             }
         }
 
-        for (int i =0 ; i < totalRequired.size(); i++){
+        for (int i = 0; i < totalRequired.size(); i++) {
             Material requiredMaterial = totalRequired.get(i);
             Material ownedMaterial = getOwnedMaterial(requiredMaterial.getName());
 
             int ownedCount = 0;
 
-            if (ownedMaterial != null){
+            if (ownedMaterial != null) {
                 ownedCount = ownedMaterial.getCount();
             }
 
             int missingAmount = requiredMaterial.getCount() - ownedCount;
 
-            if (missingAmount > 0){
+            if (missingAmount > 0) {
                 Material missingMaterial = new Material(requiredMaterial.getName());
                 missingMaterial.setCount(missingAmount);
                 totalMissing.add(missingMaterial);
             }
         }
-
 
         return totalMissing;
     }
@@ -143,13 +141,11 @@ public class Tracker {
     //         }
     //     }
     // }
-
     // public void clearAllProgress() {
     //     for (int i = 0; i < book.getItemCount(); i++) {
     //         book.getItem(i).setComplete(false);
     //     }
     // }
-
     // public ArrayList<Material> getMissingMaterials(){
     //     ArrayList<Material> missing = new ArrayList<Material>();
     //     for(int i = 0; i < list.size(); i++){
@@ -159,7 +155,6 @@ public class Tracker {
     //     }
     //     return missing;
     // }
-
     // public boolean isComplete(){
     //     for(int i = 0; i < list.size(); i++){
     //         if(!list.get(i).hasEnough(list.get(i).getCount())){
@@ -168,7 +163,6 @@ public class Tracker {
     //     }
     //     return true;
     // }
-
     // public void setComplete(boolean complete){
     //     if(complete){
     //         for(int i = 0; i < list.size(); i++){
