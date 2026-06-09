@@ -63,7 +63,7 @@ public class MainGUI {
         inventoryPanel.add(updateInventoryButton);
         inventoryPanel.add(addInventoryButton);
 
-        JPanel buttonPanel = new JPanel(new GridLayout(7, 1));
+        JPanel buttonPanel = new JPanel(new GridLayout(9, 1));
 
         JButton viewCatsButton = new JButton("View Cats");
         JButton viewMissingButton = new JButton("View Missing For Cat");
@@ -88,7 +88,9 @@ public class MainGUI {
         middlePanel.add(inventoryPanel);
         middlePanel.add(buttonPanel);
 
-        frame.add(middlePanel, BorderLayout.CENTER);
+        
+frame.add(middlePanel, BorderLayout.NORTH);
+
 
         JPanel displayPanel = new JPanel(new GridLayout(1, 3));
 
@@ -104,14 +106,14 @@ public class MainGUI {
         displayPanel.add(new JScrollPane(inventoryArea));
         displayPanel.add(new JScrollPane(missingArea));
 
-        frame.add(displayPanel, BorderLayout.SOUTH);
+        frame.add(displayPanel, BorderLayout.CENTER);
 
         outputArea = new JTextArea(5, 20);
 outputArea.setEditable(false);
 
 JScrollPane logPane = new JScrollPane(outputArea);
 
-frame.add(logPane, BorderLayout.EAST);
+frame.add(logPane, BorderLayout.SOUTH);
 
         addCatButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
