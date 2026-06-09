@@ -292,12 +292,35 @@ public class MainGUI {
     
 private void addInventory() {
     String materialName = ownedMaterialField.getText();
-    int amount = Integer.parseInt(ownedAmountField.getText());
 
-    tracker.addToInventory(materialName, amount);
+    if (materialName.equals("")) {
+        outputArea.append("Enter a material name.\n");
+        return;
+    }
 
-    outputArea.append("Added " + amount +
-        " " + materialName + "\n");
+    int amount;
+
+    try {
+        amount = Integer.parseInt(ownedAmountField.getText());
+    } catch (NumberFormatException e) {
+        outputArea.append("Enter a valid owned amount.\n");
+        return;
+    }
+
+    Material owned = tracker.getOwnedMaterial(materialName);
+
+    if (owned == null) {
+        Material material = new Material(materialName);
+        material.setCount(amount);
+        tracker.addOwnedMaterial(material);
+    } else {
+        owned.addCount(amount);
+    }
+
+    outputArea.append("Added inventory: " + materialName + " +" + amount + "\n");
+
+    ownedMaterialField.setText("");
+    ownedAmountField.setText("");
 }
 
 
