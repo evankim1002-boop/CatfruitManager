@@ -19,38 +19,42 @@ public class MainGUI {
     private JTextArea inventoryArea;
     private JTextArea missingArea;
 
-    public MainGUI() {
-        tracker = new Tracker();
+   public MainGUI() {
+    tracker = new Tracker();
 
-        frame = new JFrame("Battle Cats Catfruit Tracker");
-        frame.setSize(700, 500);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
+    frame = new JFrame("Battle Cats Catfruit Tracker");
+    frame.setSize(700, 500);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setLayout(new BorderLayout());
 
-        JPanel topPanel = new JPanel(new GridLayout(2, 4));
-JPanel northPanel = new JPanel(new GridLayout(2, 1));
+    JPanel topPanel = new JPanel(new GridLayout(2, 3));
+    JPanel northPanel = new JPanel(new GridLayout(2, 1));
 
-northPanel.add(topPanel);
+    catNameField = new JTextField();
+    materialNameField = new JTextField();
+    requiredAmountField = new JTextField();
 
+    JButton addCatButton = new JButton("Add Cat");
+    JButton deleteCatButton = new JButton("Delete Cat");
 
-        catNameField = new JTextField();
-        JButton addCatButton = new JButton("Add Cat");
-        JButton deleteCatButton = new JButton("Delete Cat");
+    JPanel catButtonPanel = new JPanel(new GridLayout(1, 2));
+    catButtonPanel.add(addCatButton);
+    catButtonPanel.add(deleteCatButton);
 
-        materialNameField = new JTextField();
-        requiredAmountField = new JTextField();
-        JButton addRequirementButton = new JButton("Add Requirement");
-        JButton editRequirementButton = new JButton("Edit Requirement");
+    topPanel.add(new JLabel("Cat Name:"));
+    topPanel.add(catNameField);
+    topPanel.add(catButtonPanel);
 
-        topPanel.add(new JLabel("Cat Name:"));
-        topPanel.add(catNameField);
-        topPanel.add(addCatButton);
-        topPanel.add(deleteCatButton);
-        topPanel.add(new JLabel("Material Required:"));
-        topPanel.add(materialNameField);
-        topPanel.add(requiredAmountField);
-        topPanel.add(new JLabel(""));
+    topPanel.add(new JLabel("Material Name:"));
+    topPanel.add(materialNameField);
+    topPanel.add(requiredAmountField);
 
+    
+
+    northPanel.add(topPanel);
+
+    
+            
 
         JPanel middlePanel = new JPanel(new GridLayout(1, 2));
         northPanel.add(middlePanel);
