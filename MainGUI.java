@@ -27,7 +27,11 @@ public class MainGUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
-        JPanel topPanel = new JPanel(new GridLayout(2, 3));
+        JPanel topPanel = new JPanel(new GridLayout(2, 4));
+JPanel northPanel = new JPanel(new GridLayout(2, 1));
+
+northPanel.add(topPanel);
+
 
         catNameField = new JTextField();
         JButton addCatButton = new JButton("Add Cat");
@@ -45,10 +49,11 @@ public class MainGUI {
         topPanel.add(new JLabel("Material Required:"));
         topPanel.add(materialNameField);
         topPanel.add(requiredAmountField);
+        topPanel.add(new JLabel(""));
 
-        frame.add(topPanel, BorderLayout.NORTH);
 
         JPanel middlePanel = new JPanel(new GridLayout(1, 2));
+        northPanel.add(middlePanel);
 
         JPanel inventoryPanel = new JPanel(new GridLayout(3, 2));
 
@@ -73,6 +78,7 @@ public class MainGUI {
         JButton saveButton = new JButton("Save");
         JButton loadButton = new JButton("Load");
         JButton clearButton = new JButton("Clear Output");
+        
 
         buttonPanel.add(viewCatsButton);
         buttonPanel.add(addRequirementButton);
@@ -89,7 +95,7 @@ public class MainGUI {
         middlePanel.add(buttonPanel);
 
         
-frame.add(middlePanel, BorderLayout.NORTH);
+frame.add(northPanel, BorderLayout.NORTH);
 
 
         JPanel displayPanel = new JPanel(new GridLayout(1, 3));
