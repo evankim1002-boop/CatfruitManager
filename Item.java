@@ -5,16 +5,12 @@ public class Item {
     private String name;
     private ArrayList<Material> list;
     private int currentCount;
-    private int neededCount;
-    private int neededMaterial;
 
     //consturcotr
     public Item(String name){
         list = new ArrayList<Material>();
         this.name = name;
         this.currentCount = 0;
-        this.neededCount = 0;
-        this.neededMaterial = 0;
     }
 
     //method
@@ -35,14 +31,6 @@ public class Item {
         currentCount+= i;
     }
 
-    public int getNeededCount(){
-        return neededCount;
-    }
-
-    public void addNeededCount(int i){
-        neededCount += i;
-    }
-
     public ArrayList<Material> getTotalNeeded(){
         return list;
     }
@@ -52,6 +40,9 @@ public class Item {
     }
 
     public void removeMaterial(int i){
+        if (i < 0 || i >= list.size()) {
+            return;
+        }
         list.remove(i);
     }
 
@@ -62,13 +53,5 @@ public class Item {
             }
         }
         return null;
-    }
-
-    public int getTotalMissingMaterials(){
-        int total = 0;
-        for(int i = 0; i < list.size(); i++){
-            total += list.get(i).getMissingAmount(list.get(i).getCount(), list.get(i).getNeededCount());
-        }
-        return total;
     }
 }

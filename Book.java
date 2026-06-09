@@ -74,25 +74,5 @@ public class Book {
         itemCount--;
     }
 
-    // public ArrayList<Item> getCompletedItems(){
-    //     ArrayList<Item> completed = new ArrayList<Item>();
-    //     for(int i = 0; i < book.size(); i++){
-    //         if(book.get(i).isComplete()){
-    //             completed.add(book.get(i));
-    //         }
-    //     }
-    //     return completed;
-    // }
-
-    // public ArrayList<Item> getIncompleteItems(){
-    //     ArrayList<Item> incomplete = new ArrayList<Item>();
-    //     for(int i = 0; i < book.size(); i++){
-    //         if(!book.get(i).isComplete()){
-    //             incomplete.add(book.get(i));
-    //         }
-    //     }
-    //     return incomplete;
-    // }
-
 
 }

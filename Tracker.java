@@ -207,45 +207,5 @@ public void loadData(String fileName) throws Exception {
     in.close();
 }
 
-    // public void markItemComplete(String itemName) {
-    //     for (int i = 0; i < book.getItemCount(); i++) {
-    //         if (book.getItem(i).getName().equals(itemName)) {
-    //             book.getItem(i).setComplete(true);
-    //             return;
-    //         }
-    //     }
-    // }
-    // public void clearAllProgress() {
-    //     for (int i = 0; i < book.getItemCount(); i++) {
-    //         book.getItem(i).setComplete(false);
-    //     }
-    // }
-    // public ArrayList<Material> getMissingMaterials(){
-    //     ArrayList<Material> missing = new ArrayList<Material>();
-    //     for(int i = 0; i < list.size(); i++){
-    //         if(!list.get(i).hasEnough(list.get(i).getCount())){
-    //             missing.add(list.get(i));
-    //         }
-    //     }
-    //     return missing;
-    // }
-    // public boolean isComplete(){
-    //     for(int i = 0; i < list.size(); i++){
-    //         if(!list.get(i).hasEnough(list.get(i).getCount())){
-    //             return false;
-    //         }
-    //     }
-    //     return true;
-    // }
-    // public void setComplete(boolean complete){
-    //     if(complete){
-    //         for(int i = 0; i < list.size(); i++){
-    //             list.get(i).setCount(list.get(i).getCount() + list.get(i).getMissingAmount(list.get(i).getCount()));
-    //         }
-    //     } else {
-    //         for(int i = 0; i < list.size(); i++){
-    //             list.get(i).setCount(0);
-    //         }
-    //     }
-    // }
+    
 }
